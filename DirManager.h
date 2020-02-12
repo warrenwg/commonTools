@@ -12,7 +12,8 @@ public:
 	DirManager();
 	~DirManager();
 
-	void newmkdir(std::string dir);
+    void tmkdir(std::string dir);
+    void newTimemkdir(std::string dir);
 	std::string mkdirUseTime(std::string sProjectDir);
 
 };

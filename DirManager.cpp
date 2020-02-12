@@ -1,4 +1,3 @@
-#include "stdafx.h"
 #include "DirManager.h"
 #include <time.h>
 
@@ -13,7 +12,19 @@ DirManager::~DirManager()
 }
 
 
-void DirManager::newmkdir(std::string dir)
+
+void DirManager::tmkdir(std::string dir)
+{
+    int m = 0, n;
+    n = _access(dir.c_str(), 0); //判断该目录是否存在   //c_str()：生成一个const char*指针，指向str2
+    //_access,确定文件或文件夹的访问权限。如果指定的存取方式有效，则函数返回0，否则函数返回-1。
+    if (n == -1)
+    {
+        _mkdir(dir.c_str());     //创建目录
+    }
+}
+
+void DirManager::newTimemkdir(std::string dir)
 {
 	int m = 0, n;
 	std::string str1, str2;
@@ -48,9 +59,9 @@ std::string DirManager::mkdirUseTime(std::string sProjectDir)
 	//判断文件夹是否存在并且命名
 	std::cout << cNowTime;
 	//string sProjectDir = "D://lcmProject//";
-	newmkdir(sProjectDir);
+    newTimemkdir(sProjectDir);
 	std::string sNowTimeFileDir = sProjectDir + cNowTime;
-	newmkdir(sNowTimeFileDir);
+    newTimemkdir(sNowTimeFileDir);
 
 	return sNowTimeFileDir;
 }
