@@ -1,4 +1,3 @@
-#include "stdafx.h"
 #include "TextManager.h"
 #include <fstream>
 

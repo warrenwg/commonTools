@@ -1,7 +1,7 @@
 //
 // Created by vsoon on 2019/8/20.
 //
-#include "AndroidLog.h"
+#include "LogTool.h"
 
 static int logV=5;
 

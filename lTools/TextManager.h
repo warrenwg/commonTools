@@ -8,6 +8,6 @@ public:
 	TextManager();
 	~TextManager();
 
-	void TextManager::writetxt(std::vector<std::vector<float >> data, char* txt);
+	void writetxt(std::vector<std::vector<float > > data, char* txt);
 };
 

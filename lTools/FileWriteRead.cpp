@@ -1,4 +1,3 @@
-#include "stdafx.h"
 #include "FileWriteRead.h"
 #include <time.h>
 

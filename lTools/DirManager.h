@@ -8,8 +8,8 @@
     #include <sys/types.h>
     #include <sys/stat.h>
 #else
-#include <direct.h> //_mkdirº¯ÊýµÄÍ·ÎÄ¼þ
-#include <io.h>     //_accessº¯ÊýµÄÍ·ÎÄ¼þ
+#include <direct.h> //_mkdirï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í·ï¿½Ä¼ï¿½
+#include <io.h>     //_accessï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í·ï¿½Ä¼ï¿½
 #include <windows.h>
 
 #endif
