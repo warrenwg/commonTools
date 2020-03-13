@@ -1,6 +1,8 @@
 #ifndef _LOG_TOOL_H
 #define _LOG_TOOL_H
 #include "CommonDefine.h"
+#include "stdio.h"
+#include "cstring"
 
 /*****************这段警告是针对所以android native库的
 *  重要提示:
@@ -34,7 +36,6 @@
 #include <android/log.h>
 #endif
 
-#include "stdio.h"
 
 #define __FILENAME__ (strrchr(__FILE__, '/') ? (strrchr(__FILE__, '/') + 1):__FILE__)
 
@@ -58,7 +59,7 @@ void setLogV(int level);
         if (getLogV() > 0)                                                \
         {                                                                 \
             char tag[512];                                                \
-            sprintf(tag, "%s:%s:%d", TAG, TAGFUN, TAGLINE);   \
+            sprintf(tag, "%s:%s:%d - >", TAG, TAGFUN, TAGLINE);   \
             __android_log_print(ANDROID_LOG_VERBOSE, tag, ##__VA_ARGS__); \
         }                                                                 \
     }
@@ -67,7 +68,7 @@ void setLogV(int level);
         if (getLogV() > 1)                                              \
         {                                                               \
             char tag[512];                                              \
-            sprintf(tag, "%s:%s:%d", TAG, TAGFUN, TAGLINE); \
+            sprintf(tag, "%s:%s:%d - >", TAG, TAGFUN, TAGLINE); \
             __android_log_print(ANDROID_LOG_DEBUG, tag, ##__VA_ARGS__); \
         }                                                               \
     }
@@ -76,7 +77,7 @@ void setLogV(int level);
         if (getLogV() > 2)                                              \
         {                                                               \
             char tag[512];                                              \
-            sprintf(tag, "%s:%s:%d", TAG, TAGFUN, TAGLINE); \
+            sprintf(tag, "%s:%s:%d - >", TAG, TAGFUN, TAGLINE); \
             __android_log_print(ANDROID_LOG_INFO, tag, ##__VA_ARGS__);  \
         }                                                               \
     }
@@ -85,7 +86,7 @@ void setLogV(int level);
         if (getLogV() > 3)                                              \
         {                                                               \
             char tag[512];                                              \
-            sprintf(tag, "%s:%s:%d", TAG, TAGFUN, TAGLINE); \
+            sprintf(tag, "%s:%s:%d - >", TAG, TAGFUN, TAGLINE); \
             __android_log_print(ANDROID_LOG_WARN, tag, ##__VA_ARGS__);  \
         }                                                               \
     }
@@ -94,7 +95,7 @@ void setLogV(int level);
         if (getLogV() > 4)                                              \
         {                                                               \
             char tag[512];                                              \
-            sprintf(tag, "%s:%s:%d", TAG, TAGFUN, TAGLINE); \
+            sprintf(tag, "%s:%s:%d - >", TAG, TAGFUN, TAGLINE); \
             __android_log_print(ANDROID_LOG_ERROR, tag, ##__VA_ARGS__); \
         }                                                               \
     }
@@ -106,7 +107,7 @@ void setLogV(int level);
         if (getLogV() > 0)                                              \
         {                                                               \
             char tag[512];                                              \
-            sprintf(tag, "verbase:%s:%s:%d", TAG, TAGFUN, TAGLINE); \
+            sprintf(tag, "verbase:%s:%s:%d - >", TAG, TAGFUN, TAGLINE); \
             printf("%s:", tag);                                         \
             printf(__VA_ARGS__);                                        \
         }                                                               \
@@ -116,7 +117,7 @@ void setLogV(int level);
         if (getLogV() > 1)                                              \
         {                                                               \
             char tag[512];                                              \
-            sprintf(tag, "debug:%s:%s:%d", TAG, TAGFUN, TAGLINE); \
+            sprintf(tag, "debug:%s:%s:%d - >", TAG, TAGFUN, TAGLINE); \
             printf("%s:", tag);                                         \
             printf(__VA_ARGS__);                                        \
         }                                                               \
@@ -126,7 +127,7 @@ void setLogV(int level);
         if (getLogV() > 2)                                              \
         {                                                               \
             char tag[512];                                              \
-            sprintf(tag, "info:%s:%s:%d", TAG, TAGFUN, TAGLINE); \
+            sprintf(tag, "info:%s:%s:%d - >", TAG, TAGFUN, TAGLINE); \
             printf("%s:", tag);                                         \
             printf(__VA_ARGS__);                                        \
         }                                                               \
@@ -136,7 +137,7 @@ void setLogV(int level);
         if (getLogV() > 3)                                              \
         {                                                               \
             char tag[512];                                              \
-            sprintf(tag, "warn:%s:%s:%d", TAG, TAGFUN, TAGLINE); \
+            sprintf(tag, "warn:%s:%s:%d - >", TAG, TAGFUN, TAGLINE); \
             printf("%s:", tag);                                         \
             printf(__VA_ARGS__);                                        \
         }                                                               \
@@ -146,7 +147,7 @@ void setLogV(int level);
         if (getLogV() > 4)                                              \
         {                                                               \
             char tag[512];                                              \
-            sprintf(tag, "error:%s:%s:%d", TAG, TAGFUN, TAGLINE); \
+            sprintf(tag, "error:%s:%s:%d - >", TAG, TAGFUN, TAGLINE); \
             printf("%s:", tag);                                         \
             printf(__VA_ARGS__);                                        \
         }                                                               \

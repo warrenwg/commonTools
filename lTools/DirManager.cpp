@@ -19,15 +19,15 @@ void DirManager::tmkdir(std::string dir)
 #ifdef __linux
     n =access(dir.c_str(), F_OK);
 #else
-    n = _access(dir.c_str(), 0); //ÅÐ¶Ï¸ÃÄ¿Â¼ÊÇ·ñ´æÔÚ   //c_str()£ºÉú³ÉÒ»¸öconst char*Ö¸Õë£¬Ö¸Ïòstr2
+    n = _access(dir.c_str(), 0); //ï¿½Ð¶Ï¸ï¿½Ä¿Â¼ï¿½Ç·ï¿½ï¿½ï¿½ï¿½   //c_str()ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½const char*Ö¸ï¿½ë£¬Ö¸ï¿½ï¿½str2
 #endif
-    //_access,È·¶¨ÎÄ¼þ»òÎÄ¼þ¼ÐµÄ·ÃÎÊÈ¨ÏÞ¡£Èç¹ûÖ¸¶¨µÄ´æÈ¡·½Ê½ÓÐÐ§£¬Ôòº¯Êý·µ»Ø0£¬·ñÔòº¯Êý·µ»Ø-1¡£
+    //_access,È·ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ÐµÄ·ï¿½ï¿½ï¿½È¨ï¿½Þ¡ï¿½ï¿½ï¿½ï¿½Ö¸ï¿½ï¿½ï¿½Ä´ï¿½È¡ï¿½ï¿½Ê½ï¿½ï¿½Ð§ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½0ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½-1ï¿½ï¿½
     if (n == -1)
     {
 		#ifdef __linux
 		mkdir(dir.c_str(),S_IRUSR | S_IWUSR | S_IXUSR | S_IRWXG | S_IRWXO);
 		#else
-        _mkdir(dir.c_str());     //´´½¨Ä¿Â¼
+        _mkdir(dir.c_str());     //ï¿½ï¿½ï¿½ï¿½Ä¿Â¼
 
 		#endif
     }
@@ -38,24 +38,24 @@ void DirManager::newTimemkdir(std::string dir)
 	int m = 0, n;
 	std::string str1, str2;
 	str1 = dir;
-	str2 = str1.substr(0, 2);   //substrÊÇC++ÓïÑÔº¯Êý£¬Ö÷Òª¹¦ÄÜÊÇ¸´ÖÆ×Ó×Ö·û´®£¬ÒªÇó´ÓÖ¸¶¨Î»ÖÃ¿ªÊ¼£¬²¢¾ßÓÐÖ¸¶¨µÄ³¤¶È
-	str1 = str1.substr(3, str1.size()); //  '//'ËãÒ»¸ö×Ö·û£¬×ªÒå×Ö·û
+	str2 = str1.substr(0, 2);   //substrï¿½ï¿½C++ï¿½ï¿½ï¿½Ôºï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Òªï¿½ï¿½ï¿½ï¿½ï¿½Ç¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö·ï¿½ï¿½ï¿½ï¿½ï¿½Òªï¿½ï¿½ï¿½Ö¸ï¿½ï¿½Î»ï¿½Ã¿ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¸ï¿½ï¿½ï¿½Ä³ï¿½ï¿½ï¿½
+	str1 = str1.substr(3, str1.size()); //  '//'ï¿½ï¿½Ò»ï¿½ï¿½ï¿½Ö·ï¿½ï¿½ï¿½×ªï¿½ï¿½ï¿½Ö·ï¿½
 	while (m >= 0)
 	{
-		m = str1.find('\\');     //.find()ÊÇÑ°ÕÒ¸Ã×Ö·û´®ÏÂ±êÎ»ÖÃ
+		m = str1.find('\\');     //.find()ï¿½ï¿½Ñ°ï¿½Ò¸ï¿½ï¿½Ö·ï¿½ï¿½ï¿½ï¿½Â±ï¿½Î»ï¿½ï¿½
 		str2 += '\\' + str1.substr(0, m);
 	#ifdef __linux
 		n = access(str2.c_str(), F_OK);
 	#else
-		n = _access(str2.c_str(), 0); //ÅÐ¶Ï¸ÃÄ¿Â¼ÊÇ·ñ´æÔÚ   //c_str()£ºÉú³ÉÒ»¸öconst char*Ö¸Õë£¬Ö¸Ïòstr2
-		//_access,È·¶¨ÎÄ¼þ»òÎÄ¼þ¼ÐµÄ·ÃÎÊÈ¨ÏÞ¡£Èç¹ûÖ¸¶¨µÄ´æÈ¡·½Ê½ÓÐÐ§£¬Ôòº¯Êý·µ»Ø0£¬·ñÔòº¯Êý·µ»Ø-1¡£
+		n = _access(str2.c_str(), 0); //ï¿½Ð¶Ï¸ï¿½Ä¿Â¼ï¿½Ç·ï¿½ï¿½ï¿½ï¿½   //c_str()ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½const char*Ö¸ï¿½ë£¬Ö¸ï¿½ï¿½str2
+		//_access,È·ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ÐµÄ·ï¿½ï¿½ï¿½È¨ï¿½Þ¡ï¿½ï¿½ï¿½ï¿½Ö¸ï¿½ï¿½ï¿½Ä´ï¿½È¡ï¿½ï¿½Ê½ï¿½ï¿½Ð§ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½0ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½-1ï¿½ï¿½
 	#endif
 		if (n == -1)
 		{
 			#ifdef __linux
 			mkdir(str2.c_str(),S_IRUSR | S_IWUSR | S_IXUSR | S_IRWXG | S_IRWXO);
 			#else
-			_mkdir(str2.c_str());     //´´½¨Ä¿Â¼
+			_mkdir(str2.c_str());     //ï¿½ï¿½ï¿½ï¿½Ä¿Â¼
 			#endif
 		}
 		str1 = str1.substr(m + 1, str1.size());
@@ -66,7 +66,7 @@ void DirManager::newTimemkdir(std::string dir)
 std::string DirManager::mkdirUseTime(std::string sProjectDir)
 {
 	char cNowTime[128];
-	//»ñÈ¡µ±Ç°Ê±¼ä±£³Öµ½×Ö·û´®ÖÐ
+	//ï¿½ï¿½È¡ï¿½ï¿½Ç°Ê±ï¿½ä±£ï¿½Öµï¿½ï¿½Ö·ï¿½ï¿½ï¿½ï¿½ï¿½
 #ifdef __linux
 
 time_t timep;
@@ -76,14 +76,14 @@ p=gmtime(&timep);
 sprintf(cNowTime,"%d%d%d-%d%d%d",(1900+p->tm_year),(1+p->tm_mon),p->tm_mday,p->tm_hour,p->tm_min,p->tm_sec);
 
 #else
-	struct tm t;   //tm½á¹¹Ö¸Õë
-	time_t now;  //ÉùÃ÷time_tÀàÐÍ±äÁ¿
-	time(&now);      //»ñÈ¡ÏµÍ³ÈÕÆÚºÍÊ±¼ä
-	localtime_s(&t, &now);   //»ñÈ¡µ±µØÈÕÆÚºÍÊ±¼ä
+	struct tm t;   //tmï¿½á¹¹Ö¸ï¿½ï¿½
+	time_t now;  //ï¿½ï¿½ï¿½ï¿½time_tï¿½ï¿½ï¿½Í±ï¿½ï¿½ï¿½
+	time(&now);      //ï¿½ï¿½È¡ÏµÍ³ï¿½ï¿½ï¿½Úºï¿½Ê±ï¿½ï¿½
+	localtime_s(&t, &now);   //ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Úºï¿½Ê±ï¿½ï¿½
 
 	strftime(cNowTime, sizeof(cNowTime), "%Y%m%d-%H%M%S", &t);
-	//¸ñÊ½»¯Êä³ö±¾µØÊ±¼ä
-	//ÅÐ¶ÏÎÄ¼þ¼ÐÊÇ·ñ´æÔÚ²¢ÇÒÃüÃû
+	//ï¿½ï¿½Ê½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½
+	//ï¿½Ð¶ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½Ç·ï¿½ï¿½ï¿½Ú²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 #endif
 	std::cout << cNowTime;
 	//string sProjectDir = "D://lcmProject//";

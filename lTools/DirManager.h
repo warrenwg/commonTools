@@ -1,6 +1,8 @@
 #pragma once
 #include <iostream>
 #include <string>
+#include <vector>
+
 
 #ifdef  __linux
 
@@ -14,7 +16,6 @@
 
 #endif
 
-#include <vector>
 
 class DirManager
 {
