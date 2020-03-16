@@ -56,7 +56,7 @@ void setLogV(int level);
 
 #define LOGV(...)                                                         \
     {                                                                     \
-        if (getLogV() > 0)                                                \
+        if (getLogV() > 4)                                                \
         {                                                                 \
             char tag[512];                                                \
             sprintf(tag, "%s:%s:%d - >", TAG, TAGFUN, TAGLINE);   \
@@ -65,7 +65,7 @@ void setLogV(int level);
     }
 #define LOGD(...)                                                       \
     {                                                                   \
-        if (getLogV() > 1)                                              \
+        if (getLogV() > 3)                                              \
         {                                                               \
             char tag[512];                                              \
             sprintf(tag, "%s:%s:%d - >", TAG, TAGFUN, TAGLINE); \
@@ -83,7 +83,7 @@ void setLogV(int level);
     }
 #define LOGW(...)                                                       \
     {                                                                   \
-        if (getLogV() > 3)                                              \
+        if (getLogV() > 1)                                              \
         {                                                               \
             char tag[512];                                              \
             sprintf(tag, "%s:%s:%d - >", TAG, TAGFUN, TAGLINE); \
@@ -92,7 +92,7 @@ void setLogV(int level);
     }
 #define LOGE(...)                                                       \
     {                                                                   \
-        if (getLogV() > 4)                                              \
+        if (getLogV() > 0)                                              \
         {                                                               \
             char tag[512];                                              \
             sprintf(tag, "%s:%s:%d - >", TAG, TAGFUN, TAGLINE); \
@@ -104,7 +104,7 @@ void setLogV(int level);
 
 #define LOGV(...)                                                       \
     {                                                                   \
-        if (getLogV() > 0)                                              \
+        if (getLogV() > 4)                                              \
         {                                                               \
             char tag[512];                                              \
             sprintf(tag, "verbase:%s:%s:%d - >", TAG, TAGFUN, TAGLINE); \
@@ -114,7 +114,7 @@ void setLogV(int level);
     }
 #define LOGD(...)                                                       \
     {                                                                   \
-        if (getLogV() > 1)                                              \
+        if (getLogV() > 3)                                              \
         {                                                               \
             char tag[512];                                              \
             sprintf(tag, "debug:%s:%s:%d - >", TAG, TAGFUN, TAGLINE); \
@@ -134,7 +134,7 @@ void setLogV(int level);
     }
 #define LOGW(...)                                                       \
     {                                                                   \
-        if (getLogV() > 3)                                              \
+        if (getLogV() > 1)                                              \
         {                                                               \
             char tag[512];                                              \
             sprintf(tag, "warn:%s:%s:%d - >", TAG, TAGFUN, TAGLINE); \
@@ -144,7 +144,7 @@ void setLogV(int level);
     }
 #define LOGE(...)                                                       \
     {                                                                   \
-        if (getLogV() > 4)                                              \
+        if (getLogV() > 0)                                              \
         {                                                               \
             char tag[512];                                              \
             sprintf(tag, "error:%s:%s:%d - >", TAG, TAGFUN, TAGLINE); \
