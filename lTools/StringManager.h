@@ -12,5 +12,7 @@ public:
 	~StringManager();
 
 	std::vector<std::string> vStringSplit(const  std::string s, const std::string delim);
+
+	int findStringIndex(std::vector<std::string> list,std::string s);
 };
 

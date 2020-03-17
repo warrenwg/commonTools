@@ -31,3 +31,22 @@ std::vector<std::string> StringManager::vStringSplit(const  std::string s, const
     return elems;
 }
 
+
+int StringManager::findStringIndex(std::vector<std::string> list,std::string s){
+
+    int index=-1;
+    for (int i = 0; i < list.size(); ++i) {
+
+//        LOGD("findString :%s %s \n",list[i].c_str(),s.c_str());
+        int equal=strcmp(list[i].c_str(),s.c_str());
+        if(equal==0){
+            index=i;
+            return index;
+        }
+    }
+
+    return index;
+}
+
+
+
