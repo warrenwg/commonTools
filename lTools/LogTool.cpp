@@ -17,7 +17,7 @@ int getLogV(){
         loadLogV=true;
         //try to load logV in config
         FileWriteRead tFileWriteRead;
-        std::string logVStr=tFileWriteRead.readStr("config/logVStr.txt");
+        std::string logVStr=tFileWriteRead.readStr(const_cast<char*>(std::string("config/logVStr.txt").c_str()));
         if(logVStr.size()>0){
              int lev= atoi(logVStr.c_str());
             logV=lev;
