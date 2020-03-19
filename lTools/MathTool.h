@@ -1,6 +1,7 @@
 #pragma once
 #include <iostream>
 #include <vector>
+#include <math.h>
 #include "LogTool.h"
 
 #define min_c(X,Y) ((X) < (Y) ? (X) : (Y))
