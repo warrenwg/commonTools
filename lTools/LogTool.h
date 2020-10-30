@@ -32,7 +32,9 @@
  * 提示：这些方法必须实现/system/lib/liblog.so
  */
 
-#ifdef MANDROID
+
+
+#if defined(MANDROID)|| defined(__ANDROID__) || defined(__ANDROID_NDK__)
 #include <android/log.h>
 #endif
 
@@ -46,7 +48,7 @@
 int getLogV();
 void setLogV(int level);
 
-#ifdef MANDROID
+#if defined(MANDROID)|| defined(__ANDROID__)|| defined(__ANDROID_NDK__)
 
 // #define LOGV(...) (getLogV() > 0 ? __android_log_print(ANDROID_LOG_VERBOSE, TAG, ##__VA_ARGS__) : 1)
 // #define LOGD(...) (getLogV() > 1 ? __android_log_print(ANDROID_LOG_DEBUG, TAG, ##__VA_ARGS__) : 1)
@@ -102,13 +104,20 @@ void setLogV(int level);
 
 #else
 
+#define HL_RED "\033[1;31m" //高亮红色 
+#define HL_GREEN "\033[1;32m" //高亮绿色 
+#define HL_YEL "\033[1;33m" //高亮黄色 
+#define BROWN "\033[0;33m" //灰色
+
+
+
 #define LOGV(...)                                                       \
     {                                                                   \
         if (getLogV() > 4)                                              \
         {                                                               \
             char tag[512];                                              \
             sprintf(tag, "verbase:%s:%s:%d - >", TAG, TAGFUN, TAGLINE); \
-            printf("%s:", tag);                                         \
+            printf(BROWN "%s:", tag);                                         \
             printf(__VA_ARGS__);                                        \
         }                                                               \
     }
@@ -118,7 +127,7 @@ void setLogV(int level);
         {                                                               \
             char tag[512];                                              \
             sprintf(tag, "debug:%s:%s:%d - >", TAG, TAGFUN, TAGLINE); \
-            printf("%s:", tag);                                         \
+            printf(BROWN "%s:", tag);                                         \
             printf(__VA_ARGS__);                                        \
         }                                                               \
     }
@@ -128,7 +137,7 @@ void setLogV(int level);
         {                                                               \
             char tag[512];                                              \
             sprintf(tag, "info:%s:%s:%d - >", TAG, TAGFUN, TAGLINE); \
-            printf("%s:", tag);                                         \
+            printf(HL_GREEN "%s:", tag);                                         \
             printf(__VA_ARGS__);                                        \
         }                                                               \
     }
@@ -138,7 +147,7 @@ void setLogV(int level);
         {                                                               \
             char tag[512];                                              \
             sprintf(tag, "warn:%s:%s:%d - >", TAG, TAGFUN, TAGLINE); \
-            printf("%s:", tag);                                         \
+            printf(HL_YEL "%s:", tag);                                         \
             printf(__VA_ARGS__);                                        \
         }                                                               \
     }
@@ -148,10 +157,13 @@ void setLogV(int level);
         {                                                               \
             char tag[512];                                              \
             sprintf(tag, "error:%s:%s:%d - >", TAG, TAGFUN, TAGLINE); \
-            printf("%s:", tag);                                         \
+            printf(HL_RED "%s:", tag);                                         \
             printf(__VA_ARGS__);                                        \
         }                                                               \
     }
+
+
+#define TIP LOGD("TEST\n");    
 
 #endif
 

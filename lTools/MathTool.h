@@ -6,6 +6,7 @@
 
 #define min_c(X,Y) ((X) < (Y) ? (X) : (Y))
 #define max_c(X,Y) ((X) > (Y) ? (X) : (Y))
+#define abs_c(a)   ((a) < 0   ? -(a)  :(a)) 
 
 #define PREV_INDEX(index,offset,size) (((size) + (index) - (offset)) % (size))
 #define NEXT_INDEX(index,offset,size) (((index) + (offset)) % (size))

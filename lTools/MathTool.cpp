@@ -72,7 +72,7 @@ int findMean(std::vector<int> lists){
 
 bool FloatEqual(float f1,float f2)
 {
-    if(std::abs(f1-f2)<0.001)
+    if(abs_c(f1-f2)<0.001)
         return true;
     else
         return false;
@@ -80,7 +80,7 @@ bool FloatEqual(float f1,float f2)
 
 bool FloatNotEqual(float f1,float f2)
 {
-    if(std::abs(f1-f2)<0.001)
+    if(abs_c(f1-f2)<0.001)
         return false;
     else
         return true;
