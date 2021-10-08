@@ -111,10 +111,10 @@ int FileWriteRead::getDevice(const char* path,int& value){
         size_t len= fread(cStr, sizeof(cStr), 1, pFile);
         if (len!=1)
         {
-            LOGD("getDevice %s len:%d %s\n",path,len,cStr);
+            LOGD("getDevice %s len:%zu %s\n",path,len,cStr);
         }
         value=atoi(cStr);
-        LOGD("readDevice:path:%s value:%s value:%d len:%d \n",path,cStr,value,len);
+        LOGD("readDevice:path:%s value:%s value:%d len:%zu \n",path,cStr,value,len);
 
         fclose(pFile);
         return 1;
@@ -136,9 +136,9 @@ int FileWriteRead::getDevice(const char* path,char* value){
         size_t len= fread(value, sizeof(value), 1, pFile);
         if (len!=1)
         {
-            LOGD("getDevice %s len:%d %s\n",path,len,value);
+            LOGD("getDevice %s len:%zu %s\n",path,len,value);
         }
-        LOGD("readDevice:path:%s value:%s value:%d len:%d \n",path,value,len);
+        LOGD("readDevice:path:%s value:%s len:%zu \n",path,value,len);
         fclose(pFile);
         return 1;
     }
