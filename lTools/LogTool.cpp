@@ -16,15 +16,15 @@ int getLogV(){
     if(!loadLogV){
         loadLogV=true;
         //try to load logV in config
-        FileWriteRead tFileWriteRead;
-        std::string logVStr=tFileWriteRead.readStr(const_cast<char*>(std::string("config/logVStr.txt").c_str()));
-        if(logVStr.size()>0){
-             int lev= atoi(logVStr.c_str());
-            logV=lev;
-            LOGI("load logVStr:%d \n",lev);
-        }else{
-            LOGW("fail to load logVstr \n");
-        }
+        // FileWriteRead tFileWriteRead;
+        // std::string logVStr=tFileWriteRead.readStr(const_cast<char*>(std::string("config/logVStr.txt").c_str()));
+        // if(logVStr.size()>0){
+        //      int lev= atoi(logVStr.c_str());
+        //     logV=lev;
+        //     LOGI("load logVStr:%d \n",lev);
+        // }else{
+        //     LOGW("fail to load logVstr \n");
+        // }
 
     }
     return logV;

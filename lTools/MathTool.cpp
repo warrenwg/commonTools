@@ -123,6 +123,29 @@ float getTrackArea(cv::Rect currectSelect){
 }
 
 
+
+cv::Rect extendRoiWidthFirst(cv::Rect inputRoi,float extendRate,cv::Rect frameRect){
+
+    cv::Rect outRoi=inputRoi;
+    outRoi.x=inputRoi.x-inputRoi.width*extendRate/2.0;
+    outRoi.width=inputRoi.width*(1+2.0*extendRate);
+    outRoi=outRoi&frameRect;
+
+    return outRoi;
+}
+
+cv::Rect extendRoiHeightFirst(cv::Rect inputRoi, float extendRate, cv::Rect frameRect){
+
+    cv::Rect outRoi=inputRoi;
+    outRoi.y=inputRoi.y-inputRoi.height*extendRate/2.0;
+    outRoi.height=inputRoi.height*(1+1.0*extendRate);
+    outRoi=outRoi&frameRect;
+
+    return outRoi; 
+}
+
+
+
 cv::Rect extendRoi(cv::Rect inputRoi,float extendRate,cv::Rect frameRect){
 
     cv::Rect outRoi;
@@ -146,6 +169,19 @@ cv::Rect2f extendRoi2f(cv::Rect2f inputRoi,float extendRate){
 
     return outRoi;
 }
+
+cv::RotatedRect extendRotateRoi(cv::RotatedRect inputRoi, float extendRate){
+
+    cv::RotatedRect outRoi=inputRoi;
+
+    // LOGI("beforeRotateRoi: %d %d | %f %f |%f \n",inputRoi.boundingRect().width,inputRoi.boundingRect().height,inputRoi.size.width,inputRoi.size.height,extendRate);
+    outRoi.size.width=inputRoi.size.width*(1+2.0*extendRate);
+    outRoi.size.height=inputRoi.size.height*(1+2.0*extendRate);
+    // LOGI("afterRotateRoi: %d %d | %f %f \n",outRoi.boundingRect().width,outRoi.boundingRect().height,outRoi.size.width,outRoi.size.height);
+
+    return outRoi;
+}
+
 
 cv::Rect cutRoi(cv::Rect inputRoi,float cutRate,cv::Rect frameRect){
 
@@ -265,4 +301,206 @@ long getCvTimeStamp(){
     long time=cv::getTickCount()*1000.0/cv::getTickFrequency();
     return time;
 }
+
+
+
+double getDistance(cv::Point pointO, cv::Point pointA)
+{
+    double distance;
+    distance = powf((pointO.x - pointA.x), 2) + powf((pointO.y - pointA.y), 2);
+    distance = sqrt(distance);
+    return distance;
+}
+
+/* @function 求四个点所围面积 */
+double get4PointArea(std::vector<cv::Point2f> points) {
+
+    double d01, d12, d23, d30, d13;
+    double k1, k2, s1, s2;
+    d01 = getDistance(points[0], points[1]);
+    d12 = getDistance(points[1], points[2]);
+    d23 = getDistance(points[2], points[3]);
+    d30 = getDistance(points[3], points[0]);
+    d13 = getDistance(points[1], points[3]);
+    k1 = (d01 + d30 + d13) / 2;
+    k2 = (d12 + d23 + d13) / 2;
+    s1 = sqrt(k1*(k1 - d01)*(k1 - d30)*(k1 - d13));
+    s2 = sqrt(k2*(k2 - d12)*(k2 - d23)*(k2 - d13));
+    return s1 + s2;
+}
+
+
+
+std::vector<cv::RotatedRect> warpRotatePointList(std::vector<cv::RotatedRect> preRotatePointList,cv::Mat homo){
+
+    std::vector<cv::Point2f> preWarpPonits;
+    std::vector<cv::Point2f> curWarpPoints;
+
+    for (size_t i = 0; i < preRotatePointList.size(); i++)
+    {
+        preWarpPonits.push_back(preRotatePointList[i].center);
+    }
+    cv::perspectiveTransform(preWarpPonits, curWarpPoints, homo);
+
+    std::vector<cv::RotatedRect> warpRotatePointList;
+    warpRotatePointList.assign(preRotatePointList.begin(),preRotatePointList.end());
+    for (size_t i = 0; i < warpRotatePointList.size(); i++)
+    {
+        warpRotatePointList[i].center=curWarpPoints[i];
+    }
+
+    return warpRotatePointList;
+}
+
+cv::Rect findExtendRectInRotateList(std::vector<cv::RotatedRect> rotateList){
+
+    cv::Rect extendRoi=cv::Rect(0,0,0,0);
+
+    for (size_t i = 0; i < rotateList.size(); i++)
+    {
+        extendRoi=extendRoi|rotateList[i].boundingRect();
+    }
+    
+    return extendRoi;
+}
+
+
+
+
+cv::Point2f warpPoint(cv::Point2f prePoint,cv::Mat homo){
+    std::vector<cv::Point2f> preWarpPonits={prePoint};
+    std::vector<cv::Point2f> curWarpPoints;
+    cv::perspectiveTransform(preWarpPonits, curWarpPoints, homo);
+    return curWarpPoints[0];
+}
+
+cv::Point2f invWarpPoint(cv::Point2f warpPoint,cv::Mat homo){
+    std::vector<cv::Point2f> preWarpPonits;
+    std::vector<cv::Point2f> curWarpPoints={warpPoint};
+    cv::perspectiveTransform(curWarpPoints, preWarpPonits, homo.inv());
+    return preWarpPonits[0];
+}
+
+cv::Rect warpRect(cv::Rect preRect,cv::Mat homo){
+
+    cv::Point2f warpedPoint=warpPoint(cv::Point(preRect.x,preRect.y),homo);
+
+    return cv::Rect(warpedPoint.x,warpedPoint.y,preRect.width,preRect.height);
+}
+
+
+float getAngelOfTwoVector(cv::Point2f pt1, cv::Point2f pt2, cv::Point2f c)
+{
+	float theta = atan2(pt1.y - c.y, pt1.x - c.x) - atan2(pt2.y - c.y, pt2.x - c.x);
+	if (theta > CV_PI)
+		theta -= 2 * CV_PI;
+	if (theta < -CV_PI)
+		theta += 2 * CV_PI;
+ 
+	theta = theta * 180.0 / CV_PI;
+	return theta;
+}
+
+int warpAreaPoint(cv::Size imageSize,cv::Mat homo,cv::Point2f & warpCenter,double & warpArea ,double & deltaAngle){
+
+    std::vector<cv::Point2f> srcPos, dstPos;
+    srcPos={{0,0},{(float)imageSize.width,0},{(float)imageSize.width,(float)imageSize.height},{0,(float)imageSize.height}};
+    cv::perspectiveTransform(srcPos, dstPos, homo);
+    for (size_t i = 0; i < dstPos.size(); i++)
+    {
+        warpCenter.x+=dstPos[i].x;
+        warpCenter.y+=dstPos[i].y;          
+    }
+    warpCenter.x/=dstPos.size();
+    warpCenter.y/=dstPos.size();
+
+
+    deltaAngle=getAngelOfTwoVector(cv::Point2f(imageSize.width,0.0),cv::Point2f(dstPos[1].x-dstPos[0].x,dstPos[1].y-dstPos[0].y),cv::Point2f(0,0));
+
+    warpArea=get4PointArea(dstPos);
+
+    return 1;
+}
+
+
+
+double distanceFromPointToLine(
+    const double &x0, const double &y0,
+    const double &x1, const double &y1,
+    const double &x2, const double &y2) {
+    double d = (fabs((y2 - y1) * x0 + (x1 - x2) * y0 + ((x2 * y1) - (x1 * y2)))) /
+               (sqrt((y2 - y1)*(y2 - y1)) + (x1 - x2)*(x1 - x2));
+    return d;
+}
+
+double yValueInLine(double x0,double x1,double y1,double x2,double y2){
+
+    double k=(y2-y1)/(x2-x1+0.0000001);
+    return k*(x0-x1)+y1;
+}
+
+
+void populateInterpPoints(const cv::Point &a, const cv::Point &b, int numPoints,
+                          std::vector<cv::Point> &interpCoords) {
+    float xStep = ((float) (b.x - a.x)) / (float) (numPoints - 1);
+    float yStep = ((float) (b.y - a.y)) / (float) (numPoints - 1);
+
+    interpCoords.push_back(a);
+    for (int i = 1; i < numPoints - 1; ++i) {
+        interpCoords.push_back(cv::Point(a.x + xStep * i, a.y + yStep * i));
+    }    
+    interpCoords.push_back(b);
+}
+
+
+
+bool polynomial_curve_fit(std::vector<cv::Point>& key_point, int n, cv::Mat& A)
+{
+	//Number of key points
+	int N = key_point.size();
+
+
+	//构造矩阵X
+	cv::Mat X = cv::Mat::zeros(n + 1, n + 1, CV_64FC1);
+	for (int i = 0; i < n + 1; i++)
+	{
+		for (int j = 0; j < n + 1; j++)
+		{
+			for (int k = 0; k < N; k++)
+			{
+				X.at<double>(i, j) = X.at<double>(i, j) +
+					std::pow(key_point[k].x, i + j);
+			}
+		}
+	}
+ 
+	//构造矩阵Y
+	cv::Mat Y = cv::Mat::zeros(n + 1, 1, CV_64FC1);
+	for (int i = 0; i < n + 1; i++)
+	{
+		for (int k = 0; k < N; k++)
+		{
+			Y.at<double>(i, 0) = Y.at<double>(i, 0) +
+				std::pow(key_point[k].x, i) * key_point[k].y;
+		}
+	}
+ 
+	A = cv::Mat::zeros(n + 1, 1, CV_64FC1);
+	//求解矩阵A
+	cv::solve(X, Y, A, cv::DECOMP_LU);
+
+    // std::cout<<"A"<<A<<std::endl;
+    // for (size_t i = 0; i < key_point.size(); i++)
+    // {
+	// 	// double y0 = A.at<double>(0, 0) + A.at<double>(1, 0) * key_point[i].x + A.at<double>(2, 0)*std::pow(key_point[i].x, 2);
+	// 	double y0 = A.at<double>(0, 0) + A.at<double>(1, 0) * key_point[i].x;        
+    //     printf("key_point:%d %d %d %f \n",i,key_point[i].x,key_point[i].y,y0);
+    // }
+
+
+
+	return true;
+}
+
+
 #endif

@@ -9,8 +9,6 @@ cmake_minimum_required(VERSION 3.3 FATAL_ERROR)
 project(lTools CXX)
 set(CMAKE_CXX_FLAGS "-fPIC")
 
-
-
 # ===================================================================================================
 # ===================================================================================================
 # Source and header files
@@ -44,24 +42,16 @@ set(HEADER ${LTOOLS_H})
 # ==================================================
 #  OpenCV
 # ==================================================
+option (USE_OCV "USE_OCV " OFF)
+IF(USE_OCV)
+add_definitions("-DUSE_OCV")
+message("-DUSE_OCV")
 
-#set(OPENCV_PATH ${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/opencv-3.4.5/install)
+
 set(OPENCV_PATH ${CMAKE_CURRENT_SOURCE_DIR}/../autofanyiji_linux/camera-calibration-and-registration/public/halcon/thirdparty/opencv-4.2.0/install)
-
-
-#set(OPENCV_INC ${OPENCV_PATH}/include 
-#                                    ${OPENCV_PATH}/include/opencv 
-#                                    ${OPENCV_PATH}/include/opencv2)
-
 set(OPENCV_INC ${OPENCV_PATH}/include/opencv4/opencv2
                                     ${OPENCV_PATH}/include/opencv4)
-
-set(CMAKE_CXX_FLAGS "-DUSE_OCV")
-
-
-
 message(${OPENCV_INC})
-
 set(OPENCV_LIB ${OPENCV_PATH}/lib/libopencv_highgui.so
                                     ${OPENCV_PATH}/lib/libopencv_core.so
                                     ${OPENCV_PATH}/lib/libopencv_calib3d.so
@@ -73,10 +63,16 @@ set(OPENCV_LIB ${OPENCV_PATH}/lib/libopencv_highgui.so
                                     ${OPENCV_PATH}/lib/libopencv_videoio.so   
                                     ${OPENCV_PATH}/lib/libopencv_videostab.so    
                                     )
-
-
 set (INC_DIRS ${INC_DIRS} ${OPENCV_INC})
 set (LIBS ${LIBS} ${OPENCV_LIB})
+
+
+
+endif(USE_OCV)
+
+
+
+
 
 
 
